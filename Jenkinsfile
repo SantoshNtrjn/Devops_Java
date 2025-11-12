@@ -6,40 +6,45 @@ pipeline {
     }
  
     environment {
-        // CORRECTED: Added '=' sign to define the variable
+        // This line is where the error happens.
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
- 
-        // CORRECTED: Added '=' signs and fixed variable name format
-        DOCKER_IMAGE_NAME = "santoshntrjn/devops-java"
+        DOCKER_IMAGE_NAME = "santoshntrjn/devops-java" // Ensure this is your correct Docker Hub username
         DOCKER_IMAGE_TAG  = "latest"
     }
  
     stages {
-        // CORRECTED: 'steps' instead of 'stepa'
         stage('Build with Maven') {
             steps {
-                sh 'mvn clean package' // Use 'package' for this simple project
+                sh 'mvn clean package'
             }
         }
  
         stage('Build Docker Image') {
             steps {
                 script {
-                    // CORRECTED: Using the proper variable name DOCKER_IMAGE_NAME
                     docker.build(DOCKER_IMAGE_NAME, ".")
                 }
+            }
+        }
+ 
+        // <<< THIS IS THE CRITICAL NEW STAGE >>>
+        stage('Debug Credentials') {
+            steps {
+                // This will ONLY work if the credential is a 'Username with password' type.
+                // The pipeline automatically provides _USR and _PSW variables.
+                sh 'echo "DEBUG: Successfully found the credential. Username is: ${DOCKERHUB_CREDENTIALS_USR}"'
             }
         }
  
         stage('Push Docker Image') {
             steps {
                 script {
-                    // CORRECTED: Using the proper variable names
                     docker.withRegistry('https://registry.hub.docker.com', DOCKERHUB_CREDENTIALS) {
-                        docker.image(DOCKER_IMAGE_NAME).push(DOCKER_IMAGE_TAG)
+                        docker.image(DOCK_IMAGE_NAME).push(DOCKER_IMAGE_TAG)
                     }
                 }
             }
         }
     }
 }
+ 
