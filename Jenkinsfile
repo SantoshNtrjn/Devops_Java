@@ -9,11 +9,6 @@ pipeline {
         DOCKER_IMAGE_TAG = "latest"
     }
     stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/SantoshNtrjn/Devops_Java.git'
-            }
-        }
         stage('Build') {
             steps {
                 sh 'mvn clean install'
