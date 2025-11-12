@@ -5,7 +5,7 @@ pipeline {
     }
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
-        DOCKER_IMAGE_NAME = "SantoshNtrjn/Devops_Java"
+        DOCKER_IMAGE_NAME = "santoshntrjn/devops-java"
         DOCKER_IMAGE_TAG = "latest"
     }
     stages {
