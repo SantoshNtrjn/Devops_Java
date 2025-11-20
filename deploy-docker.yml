@@ -18,17 +18,24 @@
         name: docker
         state: present
  
-    - name: Pull the latest Docker image from Docker Hub
-      docker_image:
-        name: "santoshntrjn/devops-java:latest"
-        source: pull
-        state: present
- 
     - name: Stop and remove any existing container of the same name
       docker_container:
         name: "java-app"
         state: absent
- 
+
+    - name: Remove current Docker image
+      docker_image:
+        name: "santoshntrjn/devops-java"
+        tag: "latest"
+        state: absent
+        force: yes
+    
+    - name: Pull the latest Docker image from Docker Hub
+      docker_image:
+        name: "santoshntrjn/devops-java"
+        tag: "latest"
+        source: pull
+
     - name: Run the Docker container
       docker_container:
         name: "java-app"
