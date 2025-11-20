@@ -6,9 +6,8 @@ pipeline {
     }
  
     environment {
-        // This line is where the error happens.
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
-        DOCKER_IMAGE_NAME = "santoshntrjn/devops-java" // Ensure this is your correct Docker Hub username
+        DOCKER_IMAGE_NAME = "santoshntrjn/devops-java" 
         DOCKER_IMAGE_TAG  = "latest"
     }
  
@@ -26,12 +25,8 @@ pipeline {
                 }
             }
         }
- 
-        // <<< THIS IS THE CRITICAL NEW STAGE >>>
         stage('Debug Credentials') {
             steps {
-                // This will ONLY work if the credential is a 'Username with password' type.
-                // The pipeline automatically provides _USR and _PSW variables.
                 sh 'echo "DEBUG: Successfully found the credential. Username is: ${DOCKERHUB_CREDENTIALS_USR}"'
             }
         }
@@ -45,6 +40,13 @@ pipeline {
                 }
             }
         }
+       stage('Deploy with Ansible') {
+    steps {
+        sshagent(credentials: ['devops-key']) {
+            sh 'export ANSIBLE_HOST_KEY_CHECKING=False && ansible-playbook -i inventory playbook.yml'
+        }
+    }
+}
     }
 }
  
