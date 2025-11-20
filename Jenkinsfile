@@ -43,7 +43,7 @@ pipeline {
        stage('Deploy with Ansible') {
     steps {
         sshagent(credentials: ['devops-key']) {
-            sh 'export ANSIBLE_HOST_KEY_CHECKING=False && ansible-playbook -i inventory playbook.yml'
+            sh 'export ANSIBLE_HOST_KEY_CHECKING=False && ansible-playbook -i inventory deploy-docker.yml'
         }
     }
 }
