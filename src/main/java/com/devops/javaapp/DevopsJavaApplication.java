@@ -19,6 +19,6 @@ public class DevopsJavaApplication {
      */
     @GetMapping("/")
     public String hello() {
-        return "<h1>Hello, DevOps World!</h1><p>Your Java Spring Boot application was successfully deployed via Jenkins and Ansible.</p>";
+        return "<h1>Hello, DevOps World!</h1><p>Your Java application was successfully deployed via Jenkins and Ansible.</p>";
     }
 }
