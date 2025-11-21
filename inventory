@@ -1,5 +1,3 @@
 [appserver]
-# We will replace this placeholder later with the real IP address
-# of the EC2 instance we create in the next section.
 16.170.221.62 ansible_user=ubuntu
 
